@@ -1,0 +1,7 @@
+timestamp,event_type,severity,message
+2025-12-06 14:30:12,LOGIN,INFO,User logged in successfully
+2025-12-06 14:31:04,UPLOAD,WARNING,File size above threshold
+2025-12-06 14:32:22,DELETE,CRITICAL,Unauthorized deletion attempt
+2025-12-06 14:33:10,PROCESS,INFO,Process started normally
+2025-12-06 14:34:50,ERROR,ERROR,Unhandled exception occurred
+

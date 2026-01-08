@@ -1,0 +1,14 @@
+product_id,product_name,price,stock,last_updated
+101,Laptop,55999,23,2025-12-06
+102,Keyboard,3499,58,2025-12-06
+103,USB Flash Drive,499,112,2025-12-06
+104,Wireless Mouse,799,67,2025-12-06
+105,Monitor,8499,14,2025-12-06
+102, Numpy, infinity, 0, 99
+103, Pandas, infinity, 0, 100
+104, Datetime, infinity, 1, 102
+109, Time, infinity, 1, 111
+110, Numpy, infinity, 2, 222
+111, Numpy, infinity, 3, 333
+113, Hello, ght, 56, 789
+114, jki, jht, 57, 773
