@@ -186,6 +186,7 @@ On `CRITICAL`, Pegasus initiates automated recovery:
 * Process attribution and termination are best-effort
 * Short-lived or forked processes may evade containment
 * Kernel-level enforcement is out of scope
+* Requires manual termination of the test_script process
 
 ---
 
@@ -231,7 +232,7 @@ Pegasus is not:
 * a kernel-level EDR
 * a signature-based scanner
 * a guaranteed process killer
-* production-hardened security software
+* a production-hardened security software
 
 Pegasus is:
 
@@ -244,7 +245,6 @@ Pegasus is:
 ## Project Status
 
 * Prototype (v1)
-* Feature-complete for intended scope
 * Suitable for freeze and evaluation
 
 ---
