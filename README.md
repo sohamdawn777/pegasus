@@ -2,39 +2,29 @@
 
 **Behavioral File-System Telemetry, Containment & Recovery Agent (Prototype v1)**
 
-Pegasus is a **user-space Linux endpoint agent** that observes filesystem activity in real time, classifies behavioral intent, and performs automated containment and recovery using versioned snapshots and optional off-site encrypted backups.
+Pegasus is a **user-space Linux endpoint agent** that observes filesystem activity in real time, classifies behavioral intent, and performs automated containment and recovery using versioned snapshots.
 
 The system is **behavior-driven**, not signature-based.
 
 ---
 
+## Tech Stack
+**Python**
+
+ The system is implemented in Python to prioritize rapid iteration and clarity while exploring complex behavioral detection logic.
+Language choice was driven by problem complexity and time constraints, not performance tuning at this stage.
+
+---
+
 ## High-Level Flow
 
-1. System startup and cryptographic initialization
+1. System startup
 2. Concurrent worker threads initialized
 3. Real-time filesystem observation
 4. Stability-aware snapshot scheduling
 5. Time-windowed behavioral intent classification
 6. Escalation to containment on critical state
-7. Automated restore and optional off-site backup
-
----
-
-## Cryptographic Initialization & Off-Site Backup Design
-
-On startup, Pegasus prompts the user for a **passkey**.
-
-This passkey is used to derive encryption keys for **off-site backup uploads**.
-
-Key characteristics:
-
-* A **random salt** is generated at runtime on each start
-* The salt is stored locally in a binary, non-human-readable file (`crypto.txt`)
-* Encryption is performed **in memory**
-* Only encrypted data is ever transmitted off-host
-
-This design establishes the foundation for a **future two-way off-site backup pipeline**, enabling restore from cloud storage in later versions.
-Version v1 implements **one-way encrypted uploads only**.
+7. Automated restore
 
 ---
 
@@ -52,7 +42,7 @@ Handles filesystem operations requested by the scheduler:
 
 * snapshot creation
 * file reads
-* restore writes
+* snapshot writes
 * cleanup actions
 
 Operations are serialized through an internal task queue to avoid direct contention.
@@ -75,7 +65,7 @@ Database access is isolated to this thread to maintain consistency.
 
 ### Observer Thread
 
-* Monitors a **single root directory** (scope choice for v1)
+* Monitors a **single user-configuredroot directory** (scope choice for v1)
 * Recursively observes all subdirectories and files
 * Captures:
 
@@ -144,8 +134,6 @@ Classification occurs across three layers:
   * `WARNING`
   * `CRITICAL`
 
-State de-escalation occurs automatically after sustained quiet periods.
-
 ---
 
 ## Containment & Escalation
@@ -186,45 +174,8 @@ Pegasus enforces strict snapshot rules based on system state:
 On `CRITICAL`, Pegasus initiates automated recovery:
 
 * restores from available snapshot history
-* restored files are written with **stale-identifying suffixes**
-  (e.g. `report.txt.restored_v2`, `image.png.recovered_1705439210`)
 * restored data is **bit-correct relative to the snapshot**
 * restored content may be semantically stale but internally consistent
-
-No overwrite occurs without traceability.
-
----
-
-## Off-Site Encrypted Backup (Required)
-
-Pegasus integrates off-site encrypted backups into the **core recovery pipeline** using Google Cloud Storage.
-
-On startup, the system derives encryption material from a user-provided passkey and performs **automatic one-way encrypted uploads** to a configured GCS bucket during escalation and recovery.
-
-### Contract
-
-Pegasus requires the following to exist prior to runtime:
-
-* A Google Cloud Storage bucket
-* Credentials with write access to the bucket
-* Environment variables configured for authentication
-
-**.env.example**
-GOOGLE_APPLICATION_CREDENTIALS= #your .json file provided for this project
-CLIENT_BUCKET= #reference to your bucket in GCS for the given project
-
-Encryption is performed **in memory** before transmission.
-Only encrypted objects are written to cloud storage.
-
-### Failure Semantics
-
-If cloud configuration is missing or invalid:
-
-* Pegasus fails during recovery initialization
-* Local detection and snapshotting may continue
-* Automated recovery is unavailable
-
-Pegasus does not provision cloud resources or manage IAM configuration.
 
 ---
 
@@ -258,6 +209,18 @@ Pegasus does not provision cloud resources or manage IAM configuration.
 
 * Central shared structures increase coupling
 * Message-passing refactors are deferred to later versions
+
+---
+
+### De-escaltion Semantics
+* De-escalation logic is racy and unreliable.
+* System may wait too long to cool down or remain in hot state post attacks.
+
+---
+
+### Optimization Pitholes
+* Occasional O(N) time complexity dependence at places (intended for small number of files).
+* System may break or become slow under real world stress.
 
 ---
 
@@ -306,6 +269,8 @@ Pegasus is designed to run on **Linux** as a user-space daemon.
 
 ### Setup
 
+Create a `.env` file using `.env.example` as a template.
+
 Clone the repository:
 
 ```bash
@@ -328,8 +293,6 @@ pip install -r requirements.txt
 
 ---
 
-
-
 ### Running Pegasus
 
 Start the agent:
@@ -346,14 +309,26 @@ Logs and state transitions are emitted continuously during runtime.
 
 ### Stopping the Agent
 
-Terminate the process manually (e.g. `Ctrl+C` or signal-based stop).
+Terminate the process manually by pressing `Ctrl+C` from the keyboard.
 
 Note:
 
-* Some background workers may block briefly during shutdown
-* Forced termination may interrupt cleanup tasks
+* Some background workers block briefly during shutdown
+* Forced termination interrupts cleanup tasks
+* Multiple `Ctrl+C` prompts may be required to stop the agent
 
 This behavior is expected for the current prototype version.
+
+---
+
+### Running Simulation (Test Script for Ransomware Behavior)
+
+Open a second terminal window and execute:
+
+```bash
+python -m simulation.test_script
+```
+The Ransomware Test Script runs as a long running thread intended to mirror typical ransomware behavior and test the correctness of the prototype.
 
 ---
 
@@ -372,8 +347,7 @@ To generate controlled destructive filesystem activity for testing, activate the
 ```bash
 python -m simulation.test_script
 ```
-
-The simulation produces high-frequency file modifications, renames, and entropy shifts designed to trigger behavioral escalation and recovery flows.
+The Simulation runs as a long running thread and produces high-frequency file modifications, renames, and entropy shifts designed to trigger behavioral escalation and recovery flows. This script is intended to mirror typical ransomware behavior and test the correctness of the prototype.
 
 This script is intended **only for local testing and demonstration**.
 
@@ -381,10 +355,11 @@ This script is intended **only for local testing and demonstration**.
 
 ## Future Work
 
+* Cleaner state de-escalation logic 
+* Better optimization of system workflow
 * Snapshot quarantine and retroactive invalidation
 * Cleaner shutdown coordination
 * Reduced shared-state coupling
-* Two-way offsite backup pipeline (Google Cloud Storage)
 * Optional kernel-level extensions (out of scope for v1)
 
 ---
@@ -398,7 +373,6 @@ MIT
 ## Author
 
 Soham Dawn
-Backend Systems & Security-Oriented Engineering
 
 ---
 

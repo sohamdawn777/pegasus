@@ -23,7 +23,7 @@ timeWindows= {
     "deEscWindow": 10
     }
 
-deEscalationThreshold= 5
+deEscalationThreshold= 3
 
 asciiRatios= {
     "text-like": 0.7,

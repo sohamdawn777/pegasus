@@ -1,5 +1,4 @@
 from backend.storage import dbStorage
-from backend.storage  import dbConfig
 import sqlite3
 import threading
 import queue
@@ -17,12 +16,13 @@ dbOps = {
 }
 
 class DBThread(threading.Thread):
-    def __init__(self):
+    def __init__(self, db_path):
         super().__init__()
         self.dbQueue= queue.Queue(maxsize= 100)
         self.dbEvent= threading.Event()
+        self.db_path= db_path
     def run(self):
-        conn= sqlite3.connect(dbConfig.db_path)
+        conn= sqlite3.connect(self.db_path)
         cur= conn.cursor()
         dbStorage.tables(cur)
         while not self.dbEvent.is_set():
