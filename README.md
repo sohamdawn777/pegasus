@@ -225,6 +225,12 @@ On `CRITICAL`, Pegasus initiates automated recovery:
 
 ---
 
+## Feedback
+Constructive technical critique and discussion are welcome via GitHub Issues.
+Selected insights are summarized here over time.
+
+---
+
 ## Scope & Non-Goals
 
 Pegasus is not:
