@@ -345,6 +345,8 @@ The Ransomware Test Script runs as a long running thread intended to mirror typi
 * Pegasus is intended to be run in **controlled environments**
 * Running as a privileged user may improve visibility but is not required
 * Kernel-level enforcement is outside the scope of this version
+* It is strongly recommended to only use dummy data inside the folder to be monitored by the system
+* Use of real data may lead to unwanted data corruption or loss due to abnormal system behavior
 
 ---
 
