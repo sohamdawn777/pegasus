@@ -169,7 +169,9 @@ Pegasus enforces strict snapshot rules based on system state:
 
 ---
 
-### Restore Behavior
+## Restore Behavior
+
+### Restore Backup Thread
 
 On `CRITICAL`, Pegasus initiates automated recovery:
 
