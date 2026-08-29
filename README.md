@@ -81,3 +81,44 @@ Pegasus is a proof of concept, not production security software.
 The prototype is written in Python. It uses watchdog for folder events, SQLite
 for snapshot records, and background threads to keep watching, copying, checking,
 and restoring work separate.
+
+## Requirements
+- Linux (tested on modern distributions)
+- Python 3.10+
+- POSIX filesystem with inotify support
+- SQLite 3 (local file-based database)
+  
+- Sufficient permissions to:
+- observe filesystem events
+- read/write monitored directories
+- attempt best-effort process inspection
+
+## Installation and Use
+- Create a .env file using .env.example as a template.
+
+- Clone the repository:
+- git clone https://github.com/sohamdawn777/pegasus.git
+- cd pegasus
+  
+- Create and activate a virtual environment:
+- python3 -m venv venv
+- source venv/bin/activate
+
+- Install dependencies:
+- pip install -r requirements.txt
+  
+- Running Pegasus
+- Start the agent:
+- python -m backend.main
+  
+Pegasus runs as a long-lived process and begins monitoring immediately after startup.
+Logs and state transitions are emitted continuously during runtime.
+
+- Stopping the Agent
+- Terminate the process manually by pressing Ctrl+C from the keyboard.
+
+## Running Simulation (Test Script for Ransomware Behavior)
+- Open a second terminal window and execute:
+- python -m simulation.test_script
+  
+The Ransomware Test Script runs as a long running thread intended to mirror typical ransomware behavior and test the correctness of the prototype.
