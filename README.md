@@ -97,14 +97,14 @@ and restoring work separate.
 - Create a .env file using .env.example as a template.
 
 - Clone the repository:
-  - Open a terminal window and execute:
-    - git clone https://github.com/sohamdawn7/pegasus.git
-  - Navigate to the cloned folder:
-    - cd {PATH TO CLONED FOLDER}
+    ```bash
+        git clone https://github.com/sohamdawn7/pegasus.git
+        cd pegasus
+    ```
   
 - Create and activate a virtual environment:
-- python3 -m venv venv
-- source venv/bin/activate
+  - python3 -m venv venv
+  - source venv/bin/activate
 
 - Install dependencies:
 - pip install -r requirements.txt
