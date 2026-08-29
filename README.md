@@ -133,9 +133,25 @@ Pegasus runs as a long-lived process and begins monitoring immediately after sta
 Logs and state transitions are emitted continuously during runtime.
 
 ## Running Simulation (Test Script for Ransomware Behavior)
+
 - Open a second terminal window and execute:
 ```bash
      python -m simulation.test_script
 ```
  
 The Ransomware Test Script runs as a long running thread intended to mirror typical ransomware behavior and test the correctness of the prototype.
+
+## References
+
+For a detailed technical overview of the prototype, see [TECHNICAL.md](TECHNICAL.md).
+
+For a quick visual demonstration, see the screenshots in the [`demo`](demo) directory.
+
+## Author
+
+Soham Dawn
+
+## Licence
+
+MIT
+
