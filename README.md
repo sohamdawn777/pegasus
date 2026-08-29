@@ -123,8 +123,10 @@ and restoring work separate.
       python -m backend.main
   ```
 
-   - Stopping the Agent
+   - Stopping the Agent:
+   
      - Terminate the process manually by pressing Ctrl+C from the keyboard.
+
 
 Pegasus runs as a long-lived process and begins monitoring immediately after startup. 
 
