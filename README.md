@@ -99,28 +99,40 @@ and restoring work separate.
 - Clone the repository:
     ```bash
         git clone https://github.com/sohamdawn7/pegasus.git
+    ```
+    ```bash
         cd pegasus
     ```
   
 - Create and activate a virtual environment:
-  - python3 -m venv venv
-  - source venv/bin/activate
+  ```bash
+      python3 -m venv venv
+  ```
+  ```bash
+      source venv/bin/activate
+  ```
 
 - Install dependencies:
-- pip install -r requirements.txt
+  ```bash
+     pip install -r requirements.txt
+  ```
   
 - Running Pegasus
-- Start the agent:
-- python -m backend.main
+  - Start the agent:
+  ```bash
+      python -m backend.main
+  ```
   
-Pegasus runs as a long-lived process and begins monitoring immediately after startup.
+Pegasus runs as a long-lived process and begins monitoring immediately after startup. 
 Logs and state transitions are emitted continuously during runtime.
 
 - Stopping the Agent
-- Terminate the process manually by pressing Ctrl+C from the keyboard.
+  - Terminate the process manually by pressing Ctrl+C from the keyboard.
 
 ## Running Simulation (Test Script for Ransomware Behavior)
 - Open a second terminal window and execute:
-- python -m simulation.test_script
+```bash
+     python -m simulation.test_script
+```
   
 The Ransomware Test Script runs as a long running thread intended to mirror typical ransomware behavior and test the correctness of the prototype.
