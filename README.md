@@ -145,7 +145,7 @@ The Ransomware Test Script runs as a long running thread intended to mirror typi
 
 For a detailed technical overview of the prototype, see [TECHNICAL.md](TECHNICAL.md).
 
-For a quick visual demonstration, see the screenshots in the [`demo`](demo) directory.
+For a quick visual demonstration, see the document in the [`demo`](demo) directory.
 
 ## Author
 
