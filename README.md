@@ -122,17 +122,18 @@ and restoring work separate.
   ```bash
       python -m backend.main
   ```
-  
-Pegasus runs as a long-lived process and begins monitoring immediately after startup. 
-Logs and state transitions are emitted continuously during runtime.
 
-- Stopping the Agent
-  - Terminate the process manually by pressing Ctrl+C from the keyboard.
+   - Stopping the Agent
+     - Terminate the process manually by pressing Ctrl+C from the keyboard.
+
+Pegasus runs as a long-lived process and begins monitoring immediately after startup. 
+
+Logs and state transitions are emitted continuously during runtime.
 
 ## Running Simulation (Test Script for Ransomware Behavior)
 - Open a second terminal window and execute:
 ```bash
      python -m simulation.test_script
 ```
-  
+ 
 The Ransomware Test Script runs as a long running thread intended to mirror typical ransomware behavior and test the correctness of the prototype.
