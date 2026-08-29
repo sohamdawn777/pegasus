@@ -89,9 +89,9 @@ and restoring work separate.
 - SQLite 3 (local file-based database)
   
 - Sufficient permissions to:
-- observe filesystem events
-- read/write monitored directories
-- attempt best-effort process inspection
+  observe filesystem events
+  read/write monitored directories
+  attempt best-effort process inspection
 
 ## Installation and Use
 - Create a .env file using .env.example as a template.
